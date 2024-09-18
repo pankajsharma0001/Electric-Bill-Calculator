@@ -1,2 +1,3 @@
 # Electric-Bill-Calculator
-A gui based electric bill calculator based on Nepal's unit system
+A GUI based electric bill calculator based on Nepal's unit system  
+Tkinter is used to provide GUI
