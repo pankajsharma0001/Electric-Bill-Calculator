@@ -2,40 +2,42 @@ import tkinter as tk
 from tkinter import ttk
 
 window = tk.Tk()
-window.title('Electricity bill calculator')
-window.geometry('200x150+600+100')
-window.configure(bg="#F5F5F5")
+window.title('Electricity Bill Calculator')
+window.geometry('300x200+600+100')  # Increased size
+window.configure(bg="#E8F0F2")  # Lighter background color for a fresh look
 window.resizable(False, False)
 
-ampere_label = tk.Label(window, text='Select the Ampere:', font=("arial", 12), bg='#F5F5F5', fg='#333333')
-ampere_label.place(x=5, y=5)
+# Ampere selection
+ampere_label = tk.Label(window, text='Select Ampere:', font=("Arial", 12, "bold"), bg='#E8F0F2', fg='#333333')
+ampere_label.place(x=20, y=20)
 
 ampere_value = [5, 15, 30, 60]
 option1 = tk.StringVar()
 
-ampere_list = ttk.Combobox(window, values=ampere_value, width=5, textvariable=option1, state = "readonly")
-ampere_list.place(x=145, y=5)
+ampere_list = ttk.Combobox(window, values=ampere_value, width=5, textvariable=option1, state="readonly", font=("Arial", 10))
+ampere_list.place(x=150, y=22)
 ampere_list.current(0)
 
-unit_label = tk.Label(window, text='Enter the unit:', font=("arial", 12), bg='#F5F5F5', fg='#333333')
-unit_label.place(x=5, y=50)
+# Unit entry
+unit_label = tk.Label(window, text='Enter Unit:', font=("Arial", 12, "bold"), bg='#E8F0F2', fg='#333333')
+unit_label.place(x=20, y=65)
 
-unit_entry = tk.Entry(window, width=8)
-unit_entry.place(x=105, y=54)
+unit_entry = tk.Entry(window, width=10, font=("Arial", 10))
+unit_entry.place(x=150, y=68)
 
-bill_label = tk.Label(window, text='Bill:', font=("arial", 12), bg='#F5F5F5', fg='#333333')
-bill_label.place(x=5, y=90)
+# Bill label
+bill_label = tk.Label(window, text='Total Bill:', font=("Arial", 12, "bold"), bg='#E8F0F2', fg='#333333')
+bill_label.place(x=20, y=110)
 
-bill_amount = tk.Label(window, bg='#F5F5F5', fg='#333333')
-bill_amount.place(x=60, y=90)
+bill_amount = tk.Label(window, text='0.00', font=("Arial", 12), bg='#E8F0F2', fg='#d9534f')
+bill_amount.place(x=150, y=110)
 
-x = 0 
-
+# Calculate bill based on ampere selection
 def ampere_5(unit):
     if unit <= 20:
         bill = 30
     elif unit <= 30:
-        bill = 110+ (unit-20) * 6.5
+        bill = 110 + (unit-20) * 6.5
     elif unit <= 50:
         bill = 175 + (unit-30) * 8
     elif unit <= 100:
@@ -50,7 +52,7 @@ def ampere_15(unit):
     if unit <= 20:
         bill = 50 + unit * 4
     elif unit <= 30:
-        bill = 155+ (unit-20) * 6.5
+        bill = 155 + (unit-20) * 6.5
     elif unit <= 50:
         bill = 220 + (unit-30) * 8
     elif unit <= 100:
@@ -65,7 +67,7 @@ def ampere_30(unit):
     if unit <= 20:
         bill = 75 + unit * 5
     elif unit <= 30:
-        bill = 200+ (unit-20) * 6.5
+        bill = 200 + (unit-20) * 6.5
     elif unit <= 50:
         bill = 265 + (unit-30) * 8
     elif unit <= 100:
@@ -91,6 +93,7 @@ def ampere_60(unit):
         bill = 2495 + (unit-250) * 11
     return bill
 
+# Function to calculate bill based on ampere and unit input
 def get_bill():
     ampere = int(ampere_list.get())
     unit = int(unit_entry.get())
@@ -104,9 +107,14 @@ def get_bill():
         bill = ampere_60(unit)
     else:
         bill = 0
-    bill_amount.config(text=bill)
+    bill_amount.config(text=f'{bill:.2f}')
 
-button = tk.Button(window, text="Convert", background="#18b8f2", activebackground="#FEDCBA", command=get_bill, relief="raised", bd=4)
-button.place(x=70, y=110)
+# Convert button
+button = tk.Button(window, text="Calculate", font=("Arial", 10, "bold"), background="#28A745", 
+                   activebackground="#218838", foreground="#ffffff", command=get_bill, relief="raised", bd=4)
+button.place(x=100, y=150)
+
+# Bind the Enter key to trigger the get_bill function
+window.bind('<Return>', lambda event: get_bill())
 
 window.mainloop()
